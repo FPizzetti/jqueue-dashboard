@@ -1,0 +1,80 @@
+<header id="header" data-current-skin={{mactrl.currentSkin}} data-ng-include="'template/header.html'"
+        data-ng-controller="headerCtrl as hctrl"></header>
+
+<section id="main">
+    <aside id="sidebar" data-ng-include="'template/sidebar-left.html'"
+           data-ng-class="{ 'toggled': mactrl.sidebarToggle.left === true }"></aside>
+
+    <section id="content">
+        <div class="container">
+
+            <!-- Extra -->
+            <div class="block-header">
+                <h2>Databases</h2>
+
+                <ul class="actions">
+                    <li>
+                        <a href="">
+                            <i class="zmdi zmdi-trending-up"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="zmdi zmdi-check-all"></i>
+                        </a>
+                    </li>
+                    <li class="dropdown" uib-dropdown>
+                        <a href="" uib-dropdown-toggle>
+                            <i class="zmdi zmdi-more-vert"></i>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a href="">Refresh</a>
+                            </li>
+                            <li>
+                                <a href="">Manage Widgets</a>
+                            </li>
+                            <li>
+                                <a href="">Widgets Settings</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4" ng-repeat="database in databaseCtrl.databases">
+                    <div class="card">
+                        <div class="card-header bgm-bluegray m-b-20">
+                            <h2>{{database.configName}}
+                                <!--<small>Phasellus condimentum ipsum id auctor</small>-->
+                            </h2>
+                            <ul class="actions actions-alt">
+                                <li>
+                                    <a href="">
+                                        <i class="zmdi zmdi-refresh-alt"></i>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <a class="btn bgm-red btn-float waves-effect"
+                               href="#/databases/{{database.configName}}/queues"><i class="zmdi zmdi-arrow-right"></i>
+                            </a>
+                        </div>
+
+                        <div class="card-body card-padding">
+                            <label>host:</label>{{database.host}}
+                            <br/>
+                            <label>user:</label>{{database.user}}
+                            <br/>
+                            <label>database:</label>{{database.database}}
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</section></div>
