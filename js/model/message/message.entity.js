@@ -6,5 +6,9 @@ function Message(messageResource) {
 
     var self = this;
 
+    self.getMessagesByQuery = function (db, queue, data, status, createdAtStart, createdAtEnd, modifiedAtStart, modifiedAtEnd) {
+        return messageResource.getMessagesByQuery(db, queue, data, status, createdAtStart, createdAtEnd, modifiedAtStart, modifiedAtEnd);
+    };
+
     return self;
 }

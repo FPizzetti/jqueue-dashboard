@@ -4,9 +4,10 @@ function webservice($http) {
 
     var basePath = 'http://127.0.0.1:8000';
 
-    function doGet(endpoint) {
+    function doGet(endpoint, params) {
         return $http({
             method: 'GET',
+            params: params,
             url: basePath + endpoint
         });
     }

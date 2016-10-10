@@ -48,7 +48,7 @@
                             <div class="row">
                                 <div class="form-group fg-float m-b-30">
                                     <div class="fg-line">
-                                        <input type="text" class="input-sm form-control fg-input">
+                                        <input ng-model="data" type="text" class="input-sm form-control fg-input">
                                         <label class="fg-label">Message data Contains</label>
                                     </div>
                                 </div>
@@ -57,8 +57,8 @@
                                 <div class="form-group">
                                     <div class="fg-line">
                                         <div class="select">
-                                            <select class="form-control">
-                                                <option>Select a Status</option>
+                                            <select class="form-control" ng-model="status">
+                                                <option value="">Select a Status</option>
                                                 <option value="buried">Buried</option>
                                                 <option value="ready">Ready</option>
                                                 <option value="reserved">Reserved</option>
@@ -71,7 +71,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Created At Start</label>
-                                        <input type="text" class="form-control"
+                                        <input ng-model="createdAtStart" type="text" class="form-control"
                                                data-input-mask="{mask: '00/00/0000 00:00:00'}"
                                                placeholder="00/00/0000 00:00:00">
                                     </div>
@@ -80,7 +80,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Created At End</label>
-                                        <input type="text" class="form-control"
+                                        <input ng-model="createdAtEnd" type="text" class="form-control"
                                                data-input-mask="{mask: '00/00/0000 00:00:00'}"
                                                placeholder="00/00/0000 00:00:00">
                                     </div>
@@ -90,7 +90,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Modified At Start</label>
-                                        <input type="text" class="form-control"
+                                        <input ng-model="modifiedAtStart" type="text" class="form-control"
                                                data-input-mask="{mask: '00/00/0000 00:00:00'}"
                                                placeholder="00/00/0000 00:00:00">
                                     </div>
@@ -99,14 +99,16 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Modified At End</label>
-                                        <input type="text" class="form-control"
+                                        <input ng-model="modifiedAtEnd" type="text" class="form-control"
                                                data-input-mask="{mask: '00/00/0000 00:00:00'}"
                                                placeholder="00/00/0000 00:00:00">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <button class="btn btn-default btn-block">Filter</button>
+                                <button class="btn btn-default btn-block" ng-click="messagesCtrl.advancedFilter()">
+                                    Filter
+                                </button>
                             </div>
                         </div>
 
@@ -143,21 +145,29 @@
                 <div class="card">
                     <div class="listview lv-bordered lv-lg">
                         <div class="lv-header-alt clearfix">
-                            <div class="checkbox pull-left" uib-tooltip="Select all messages from this page">
+                            <div ng-if="messagesCtrl.filtered.length>0" class="checkbox pull-left"
+                                 uib-tooltip="Select all messages from this page">
                                 &nbsp;&nbsp;&nbsp;<label>
-                                <input type="checkbox" value="">
+                                <input type="checkbox" ng-model="selectAll" ng-change="verifySelectAll()">
                                 <i class="input-helper"></i>
                             </label>
                             </div>
 
-                            <div class="lvh-search" data-ng-if="listviewSearchStat"
-                                 data-ng-click="listviewSearchStat">
-                                <input type="text" placeholder="Start typing..." ng-model="search" class="lvhs-input">
+                            <div class="lvh-search" data-ng-if="mactrl.listviewSearchStat"
+                                 data-ng-click="mactrl.listviewSearchStat">
+                                <input type="text" placeholder="Start typing..." ng-model="search" ng-change="filter()"
+                                       class="lvhs-input">
                                 <i class="lvh-search-close"
-                                   data-ng-click="listviewSearchStat = false">&times;</i>
+                                   data-ng-click="mactrl.listviewSearchStat = false">&times;</i>
                             </div>
 
                             <ul class="lv-actions actions">
+                                <li uib-tooltip="Enqueue new Message">
+                                    <a href="" ng-click="messagesCtrl.enqueue()">
+                                        <i class="zmdi zmdi-plus"></i>
+                                    </a>
+                                </li>
+
                                 <li>
                                     <a href="" ng-click="messagesCtrl.refreshMessages()">
                                         <i class="zmdi zmdi-refresh-alt"></i>
@@ -165,19 +175,19 @@
                                 </li>
 
                                 <li>
-                                    <a href="" data-ng-click="listviewSearchStat = true">
+                                    <a href="" data-ng-click="mactrl.listviewSearchStat = true">
                                         <i class="zmdi zmdi-search"></i>
                                     </a>
                                 </li>
                             </ul>
                         </div>
 
-                        <div class="lv-body">
+                        <div class="lv-body" ng-if="messagesCtrl.filtered.length>0">
                             <div class="lv-item media"
                                  ng-repeat="message in messagesCtrl.filtered = (messagesCtrl.messages | filter:search | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit)">
                                 <div class="checkbox pull-left">
                                     <label>
-                                        <input type="checkbox" value="">
+                                        <input type="checkbox" ng-model="message.isSelected">
                                         <i class="input-helper"></i>
                                     </label>
                                 </div>
@@ -211,11 +221,17 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
-                    <div class="lv-pagination" data-ng-controller="PaginationDemoCtrl">
-                        <uib-pagination total-items="totalItems"
-                                        ng-model="currentPage" max-size="8"></uib-pagination>
+                    <div ng-if="messagesCtrl.filtered.length>0" class="lv-pagination">
+                        <uib-pagination total-items="filteredItems"
+                                        ng-model="currentPage"></uib-pagination>
+                    </div>
+                    <div class="lv-body" ng-if="messagesCtrl.filtered.length<=0">
+                        <div class="lv-item media">
+                            No messages were found
+                        </div>
                     </div>
                 </div>
             </div>

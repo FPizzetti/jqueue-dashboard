@@ -17,6 +17,8 @@ function MessageModalController(database, queue, Queue, $scope, $uibModalInstanc
 
         Queue.enqueue(self.database, self.queue, params).then(function () {
             $uibModalInstance.close();
+        }, function (err) {
+            alert(err.data);
         });
     };
 
