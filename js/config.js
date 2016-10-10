@@ -1,6 +1,6 @@
 materialAdmin
     .config(function ($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise("/home");
+        $urlRouterProvider.otherwise("/databases");
 
 
         $stateProvider
@@ -571,6 +571,9 @@ materialAdmin
                 resolve: {
                     messages: ['$stateParams', 'Queue', function ($stateParams, Queue) {
                         return Queue.getMessages($stateParams.db, $stateParams.queue);
+                    }],
+                    queueInfo: ['$stateParams', 'Queue', function ($stateParams, Queue) {
+                        return Queue.getByName($stateParams.db, $stateParams.queue);
                     }]
                 }
             })

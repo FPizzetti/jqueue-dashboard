@@ -1,79 +1,222 @@
-<header id="header" data-current-skin={{mactrl.currentSkin}} data-ng-include="'template/header.html'"
+<header id="header" data-current-skin={{mactrl.currentSkin}} data-ng-include="'template/header.html?b=2'"
         data-ng-controller="headerCtrl as hctrl"></header>
 
 <section id="main">
-    <aside id="sidebar" data-ng-include="'template/sidebar-left.html'"
+    <aside id="sidebar" data-ng-include="'template/sidebar-left.html?a=1'"
            data-ng-class="{ 'toggled': mactrl.sidebarToggle.left === true }"></aside>
 
     <section id="content">
         <div class="container">
 
-            <!-- Extra -->
             <div class="block-header">
                 <ol class="breadcrumb" style="margin-bottom: 5px;">
                     <li><a href="#/databases">Databases</a></li>
-                    <li><a href="#/databases/{{messagesCtrl.database}}/queues">Queues</a></li>
+                    <li><a href="#/databases/{{messagesCtrl.database}}/queues">{{messagesCtrl.database}}</a></li>
                     <li class="active">{{messagesCtrl.queue}}</li>
                 </ol>
-
-                <ul class="actions">
-                    <li>
-                        <a href="">
-                            <i class="zmdi zmdi-trending-up"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <i class="zmdi zmdi-check-all"></i>
-                        </a>
-                    </li>
-                    <li class="dropdown" uib-dropdown>
-                        <a href="" uib-dropdown-toggle>
-                            <i class="zmdi zmdi-more-vert"></i>
-                        </a>
-
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li>
-                                <a href="">Refresh</a>
-                            </li>
-                            <li>
-                                <a href="">Manage Widgets</a>
-                            </li>
-                            <li>
-                                <a href="">Widgets Settings</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
             </div>
 
             <div class="row">
-                <div class="table-responsive">
-                    <table ng-table="tctrl.tableBasic" class="table table-striped table-vmiddle">
-                        <tr ng-repeat="w in messagesCtrl.messages">
-                            <td data-title="'ID'">
-                                {{ w.id }}
-                            </td>
-                            <td data-title="'Status'">
-                                {{ w.status }}
-                            </td>
-                            <td data-title="'Data'">
-                                {{ w.data }}
-                            </td>
-                            <td data-title="'Priority'">
-                                {{ w.priority }}
-                            </td>
-                            <td data-title="'DateTime'">
-                                {{ w.date_time }}
-                            </td>
-                            <td data-title="'Created At'">
-                                {{ w.created_at }}
-                            </td>
-                            <td data-title="'Modified At'">
-                                {{ w.modified_at }}
-                            </td>
-                        </tr>
-                    </table>
+                <div class="col-sm-8">
+                    <div class="card">
+                        <div class="card-header ch-alt">
+                            <h2>Filter
+                                <small>Search for messages, to update or delete them</small>
+                            </h2>
+
+                            <ul class="actions">
+                                <li class="dropdown" uib-dropdown>
+                                    <a href="" uib-dropdown-toggle aria-expanded="false">
+                                        <i class="zmdi zmdi-more-vert"></i>
+                                    </a>
+
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li>
+                                            <a href="" ng-click="messagesCtrl.massiveDelete()">Massive Delete&nbsp;<i
+                                                    class="glyphicon glyphicon-trash"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="" ng-click="messagesCtrl.massiveUpdate()">Massive Update&nbsp;<i
+                                                    class="glyphicon glyphicon-pencil"></i></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body card-padding">
+                            <div class="row">
+                                <div class="form-group fg-float m-b-30">
+                                    <div class="fg-line">
+                                        <input type="text" class="input-sm form-control fg-input">
+                                        <label class="fg-label">Message data Contains</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        <div class="select">
+                                            <select class="form-control">
+                                                <option>Select a Status</option>
+                                                <option value="buried">Buried</option>
+                                                <option value="ready">Ready</option>
+                                                <option value="reserved">Reserved</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Created At Start</label>
+                                        <input type="text" class="form-control"
+                                               data-input-mask="{mask: '00/00/0000 00:00:00'}"
+                                               placeholder="00/00/0000 00:00:00">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Created At End</label>
+                                        <input type="text" class="form-control"
+                                               data-input-mask="{mask: '00/00/0000 00:00:00'}"
+                                               placeholder="00/00/0000 00:00:00">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Modified At Start</label>
+                                        <input type="text" class="form-control"
+                                               data-input-mask="{mask: '00/00/0000 00:00:00'}"
+                                               placeholder="00/00/0000 00:00:00">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Modified At End</label>
+                                        <input type="text" class="form-control"
+                                               data-input-mask="{mask: '00/00/0000 00:00:00'}"
+                                               placeholder="00/00/0000 00:00:00">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <button class="btn btn-default btn-block">Filter</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-header ch-alt">
+                            <h2>Summary
+                                <small>General info about this queue</small>
+                            </h2>
+
+                            <ul class="actions">
+                                <li>
+                                    <a href="" ng-click="messagesCtrl.refreshInfo()">
+                                        <i class="zmdi zmdi-refresh-alt"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body card-padding">
+                            <label>Type:</label> {{messagesCtrl.queueInfo.ENGINE === 'MEMORY' ? 'Memory' : 'Disk'}}
+                            <br/>
+                            <label>Queue length:</label> {{messagesCtrl.queueInfo.TABLE_ROWS}}
+                            <br/>
+                            <label>Created At:</label> {{messagesCtrl.queueInfo.CREATE_TIME}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="card">
+                    <div class="listview lv-bordered lv-lg">
+                        <div class="lv-header-alt clearfix">
+                            <div class="checkbox pull-left" uib-tooltip="Select all messages from this page">
+                                &nbsp;&nbsp;&nbsp;<label>
+                                <input type="checkbox" value="">
+                                <i class="input-helper"></i>
+                            </label>
+                            </div>
+
+                            <div class="lvh-search" data-ng-if="listviewSearchStat"
+                                 data-ng-click="listviewSearchStat">
+                                <input type="text" placeholder="Start typing..." ng-model="search" class="lvhs-input">
+                                <i class="lvh-search-close"
+                                   data-ng-click="listviewSearchStat = false">&times;</i>
+                            </div>
+
+                            <ul class="lv-actions actions">
+                                <li>
+                                    <a href="" ng-click="messagesCtrl.refreshMessages()">
+                                        <i class="zmdi zmdi-refresh-alt"></i>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="" data-ng-click="listviewSearchStat = true">
+                                        <i class="zmdi zmdi-search"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="lv-body">
+                            <div class="lv-item media"
+                                 ng-repeat="message in messagesCtrl.filtered = (messagesCtrl.messages | filter:search | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit)">
+                                <div class="checkbox pull-left">
+                                    <label>
+                                        <input type="checkbox" value="">
+                                        <i class="input-helper"></i>
+                                    </label>
+                                </div>
+                                <div class="media-body">
+                                    <div>Message Content</div>
+                                    <small class="lv-small">{{message.data}}
+                                    </small>
+                                    <ul class="lv-attrs">
+                                        <li>Status: <span class="label"
+                                                          ng-class="{'label-success': message.status === 'ready', 'label-danger': message.status === 'buried', 'label-warning': message.status === 'reserved'}">{{message.status}}</span>
+                                        </li>
+                                        <li>Date Created: {{message.date_time}}</li>
+                                        <li>Priority: {{message.priority}}</li>
+                                    </ul>
+
+                                    <div class="lv-actions actions dropdown" uib-dropdown>
+                                        <a href="" uib-dropdown-toggle aria-expanded="true">
+                                            <i class="zmdi zmdi-more-vert"></i>
+                                        </a>
+
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li>
+                                                <a href="">Delete&nbsp;<i class="glyphicon glyphicon-trash"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="">Update&nbsp;
+                                                    <i class="glyphicon glyphicon-pencil"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lv-pagination" data-ng-controller="PaginationDemoCtrl">
+                        <uib-pagination total-items="totalItems"
+                                        ng-model="currentPage" max-size="8"></uib-pagination>
+                    </div>
                 </div>
             </div>
 

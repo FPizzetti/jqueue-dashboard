@@ -10,8 +10,18 @@ function queueResource(webservice) {
         return webservice.doGet('/databases/' + dbName + '/queues/' + queue + '/messages');
     }
 
+    function drop(dbName, queue) {
+        return webservice.doDelete('/databases/' + dbName + '/queues/' + queue);
+    }
+
+    function enqueue(dbName, queue, message) {
+        return webservice.doPost('/databases/' + dbName + '/queues/' + queue + '/messages', message);
+    }
+
     return {
         getByName: getByName,
-        getMessages: getMessages
+        getMessages: getMessages,
+        drop: drop,
+        enqueue: enqueue
     };
 }

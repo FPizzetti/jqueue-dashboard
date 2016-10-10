@@ -1,14 +1,10 @@
-angular.module('database').controller('DatabasesController', ['$state', 'Database', DatabasesController]);
+angular.module('database').controller('DatabasesController', ['Database', DatabasesController]);
 
-function DatabasesController($state, Database) {
+function DatabasesController(Database) {
 
     var self = this;
 
     self.databases = [];
-
-    function init() {
-        self.listAll();
-    }
 
     self.listAll = function () {
         Database.listAll().then(function (resolution) {
@@ -16,9 +12,15 @@ function DatabasesController($state, Database) {
         });
     };
 
-    // self.openDatabase = function (database) {
-    //     $state.go('databases/' + database.configName);
-    // };
+    self.refreshDatabase = function (database) {
+        Database.getByName(database.configName).then(function (resolution) {
+            database = resolution.data;
+        });
+    };
+
+    function init() {
+        self.listAll();
+    }
 
     init();
 }

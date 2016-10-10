@@ -1,0 +1,29 @@
+<div class="modal-header">
+    <h4 class="modal-title">Enqueue Message</h4>
+</div>
+<div class="modal-body">
+    <div class="block-header">
+        <ol class="breadcrumb" style="margin-bottom: 5px;">
+            <li><a href="">Databases</a></li>
+            <li><a href="">{{messageModalCtrl.database}}</a></li>
+            <li class="active">{{messageModalCtrl.queue}}</li>
+        </ol>
+    </div>
+    <div class="form-group">
+        <div class="fg-line">
+            <textarea class="form-control" rows="5" ng-model="data" placeholder="Message data"></textarea>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-sm-6">Priority<input class="form-control" type="text" ng-model="priority" value="0"></div>
+
+        <div class="col-sm-6"> Delay<input class="form-control" type="text" ng-model="delay" value="0"></div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-link" ng-click="cancel()">Cancel</button>
+    <button type="button" class="btn btn-success" ng-click="enqueue()">Enqueue</button>
+</div>
+

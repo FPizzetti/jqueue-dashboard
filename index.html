@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Material Admin</title>
+    <title>Jqueue Dashboard</title>
 
     <!-- Vendor CSS -->
     <link href="vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
@@ -112,6 +112,7 @@
 <script src="vendors/bower_components/flot/jquery.flot.pie.js"></script>
 <script src="vendors/bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
 <script src="vendors/bower_components/angular-nouislider/src/nouislider.min.js"></script>
+<script src="vendors/input-mask/input-mask.min.js"></script>
 
 
 <!-- App level -->
@@ -125,6 +126,7 @@
 
 <!--Database-->
 <script src="js/model/common/webservice.js"></script>
+<script src="js/modal.service.js"></script>
 <script src="js/model/database/database.resource.js"></script>
 <script src="js/model/database/database.entity.js"></script>
 <script src="js/model/queue/queue.resource.js"></script>
@@ -134,6 +136,11 @@
 <script src="js/controllers/databases.controller.js"></script>
 <script src="js/controllers/queues.controller.js"></script>
 <script src="js/controllers/messages.controller.js"></script>
+
+<script src="js/controllers/modals/messageModal.controller.js"></script>
+<script src="js/controllers/modals/queueModal.controller.js"></script>
+
+<script src="js/filters/startFrom.filter.js"></script>
 
 <!-- Template Modules -->
 <script src="js/modules/template.js"></script>
