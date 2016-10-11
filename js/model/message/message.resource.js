@@ -10,18 +10,16 @@ function messageResource(webservice) {
         return webservice.doPatch('/databases/' + db + '/queues/' + queue + '/messages/' + params.id, params);
     }
 
-    //TODO
     function updateByFilter(db, queue, filter, messageParams) {
-        return webservice.doPatch('/databases/' + db + '/queues/' + queue + '/messages/' + params.id, params);
+        return webservice.doPatch('/databases/' + db + '/queues/' + queue + '/messages', messageParams, filter);
     }
 
     function deleteById(db, queue, id) {
         return webservice.doDelete('/databases/' + db + '/queues/' + queue + '/messages/' + id);
     }
 
-    //TODO
     function deleteByFilter(db, queue, filter) {
-        return messageResource.deleteByFilter(db, queue, filter);
+        return webservice.doDelete('/databases/' + db + '/queues/' + queue + '/messages', filter);
     }
 
     return {

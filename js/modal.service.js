@@ -102,7 +102,27 @@ function ModalService($uibModal, $q) {
         return deferred.promise;
     };
 
-    this.updateMessage = function () {
+    this.confirmationMassiveUpdate = function (msg) {
+        var deferred = $q.defer();
+        swal({
+            title: 'Are you sure?',
+            text: msg,
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#F44336',
+            confirmButtonText: 'Yes, delete!',
+            closeOnConfirm: true
+        }, function (res) {
+            if (res) {
+                deferred.resolve();
+            } else {
+                deferred.reject();
+            }
+        });
+        return deferred.promise;
+    };
+
+    this.updateMessage = function (database, queue) {
         return $uibModal.open({
             animation: true,
             templateUrl: 'views/jqueue/modals/messageUpdate.modal.html',

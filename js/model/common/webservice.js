@@ -12,16 +12,16 @@ function webservice($http) {
         });
     }
 
-    function doPost(endpoint, params) {
-        return $http.post(basePath + endpoint, params);
+    function doPost(endpoint, params, queryParams) {
+        return $http.post(basePath + endpoint, params, queryParams);
     }
 
-    function doDelete(endpoint) {
-        return $http.delete(basePath + endpoint);
+    function doDelete(endpoint, queryParams) {
+        return $http.delete(basePath + endpoint, {params: queryParams});
     }
 
-    function doPatch(endpoint, params) {
-        return $http.patch(basePath + endpoint, params);
+    function doPatch(endpoint, params, queryParams) {
+        return $http.patch(basePath + endpoint, params, {params: queryParams});
     }
 
     return {

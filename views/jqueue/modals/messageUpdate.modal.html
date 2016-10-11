@@ -5,8 +5,8 @@
     <div class="block-header">
         <ol class="breadcrumb" style="margin-bottom: 5px;">
             <li><a href="">Databases</a></li>
-            <li><a href="">{{messageModalCtrl.database}}</a></li>
-            <li class="active">{{messageModalCtrl.queue}}</li>
+            <li><a href="">{{messageUpdateModalCtrl.database}}</a></li>
+            <li class="active">{{messageUpdateModalCtrl.queue}}</li>
         </ol>
     </div>
     <div class="row">
@@ -17,7 +17,6 @@
                         <option value="">Select a Status</option>
                         <option value="buried">Buried</option>
                         <option value="ready">Ready</option>
-                        <option value="reserved">Reserved</option>
                     </select>
                 </div>
             </div>
@@ -27,6 +26,6 @@
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-link" ng-click="cancel()">Cancel</button>
-    <button type="button" class="btn btn-success" ng-click="update()">Enqueue</button>
+    <button type="button" class="btn btn-success" ng-click="update()">Update</button>
 </div>
 

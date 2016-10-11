@@ -156,7 +156,8 @@
 
                             <div class="lvh-search" data-ng-if="mactrl.listviewSearchStat"
                                  data-ng-click="mactrl.listviewSearchStat">
-                                <input type="text" placeholder="Start typing..." ng-model="search" ng-change="filter()"
+                                <input type="text" placeholder="Start typing..." ng-model="messagesCtrl.search"
+                                       ng-change="messagesCtrl.filter()"
                                        class="lvhs-input">
                                 <i class="lvh-search-close"
                                    data-ng-click="mactrl.listviewSearchStat = false">&times;</i>
@@ -195,7 +196,7 @@
 
                         <div class="lv-body" ng-if="messagesCtrl.filtered.length>0">
                             <div class="lv-item media"
-                                 ng-repeat="message in messagesCtrl.filtered = (messagesCtrl.messages | filter:messagesCtrl.search | startFrom:(messagesCtrl.currentPage-1)*messagesCtrl.entryLimit | limitTo:messagesCtrl.entryLimit)">
+                                 ng-repeat="message in messagesCtrl.filtered | startFrom:(messagesCtrl.currentPage-1)*messagesCtrl.entryLimit | limitTo:messagesCtrl.entryLimit">
                                 <div class="checkbox pull-left">
                                     <label>
                                         <input type="checkbox" ng-model="message.isSelected">
@@ -237,7 +238,7 @@
                     </div>
 
                     <div ng-if="messagesCtrl.filtered.length>0" class="lv-pagination">
-                        <uib-pagination total-items="messagesCtrl.filteredItems"
+                        <uib-pagination total-items="messagesCtrl.filtered.length"
                                         ng-model="messagesCtrl.currentPage"></uib-pagination>
                     </div>
                     <div class="lv-body" ng-if="messagesCtrl.filtered.length<=0">

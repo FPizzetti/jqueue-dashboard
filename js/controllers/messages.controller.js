@@ -1,7 +1,8 @@
-angular.module('database').controller('MessagesController', ['messages', 'queueInfo', '$stateParams', 'Queue', '$scope', '$timeout', 'ModalService', 'Message', '$location', '$state', MessagesController]);
+angular.module('database').controller('MessagesController', ['messages', 'queueInfo', '$stateParams', 'Queue', '$scope', '$timeout', 'ModalService', 'Message', '$location', '$filter', MessagesController]);
 
-function MessagesController(messages, queueInfo, $stateParams, Queue, $scope, $timeout, ModalService, Message, $location, $state) {
+function MessagesController(messages, queueInfo, $stateParams, Queue, $scope, $timeout, ModalService, Message, $location, $filter) {
 
+    var filter = $filter('filter');
     var self = this;
 
     self.entryLimit = 10;
@@ -13,8 +14,6 @@ function MessagesController(messages, queueInfo, $stateParams, Queue, $scope, $t
     self.queueInfo = queueInfo.data;
     self.messages = messages.data;
     self.filtered = self.messages;
-    self.filteredItems = self.filtered.length;
-    self.totalItems = self.messages.length;
 
     self.verifySelectAll = function () {
         self.filtered.forEach(function (msg) {
@@ -24,8 +23,8 @@ function MessagesController(messages, queueInfo, $stateParams, Queue, $scope, $t
 
     self.filter = function () {
         $timeout(function () {
-            self.filteredItems = self.filtered.length;
-        }, 10);
+            self.filtered = filter(self.messages, {$: self.search});
+        });
     };
 
     self.advancedFilter = function () {
@@ -44,8 +43,6 @@ function MessagesController(messages, queueInfo, $stateParams, Queue, $scope, $t
         Message.getMessagesByQuery(self.database, self.queue, params).then(function (resolution) {
             self.messages = resolution.data;
             self.filtered = self.messages;
-            self.filteredItems = self.filtered.length;
-            self.totalItems = self.messages.length;
         });
     };
 
@@ -57,56 +54,37 @@ function MessagesController(messages, queueInfo, $stateParams, Queue, $scope, $t
 
     self.refreshMessages = function () {
         self.messages = [];
+        self.filtered = [];
         self.selectAll = false;
         $location.search({});
         Queue.getMessages(self.database, self.queue).then(function (resolution) {
             self.messages = resolution.data;
             self.filtered = self.messages;
-            self.filteredItems = self.filtered.length;
-            self.totalItems = self.messages.length;
         });
     };
 
     self.massiveDelete = function () {
-        swal({
-            title: 'Are you sure?',
-            text: 'All messages for this filter will be removed',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#F44336',
-            confirmButtonText: 'Yes, delete it!',
-            closeOnConfirm: false
-        }, function () {
-            localStorage.clear();
-            swal('Done!', 'messages were deleted', 'success');
+        ModalService.confirmationDeleteMessage('It will delete all messages for this filter').then(function () {
+            var queryParams = $location.search();
+            Message.deleteByFilter(self.database, self.queue, queryParams).then(function () {
+                self.refreshMessages();
+            });
+        });
+    };
+
+    self.massiveUpdate = function () {
+        ModalService.updateMessage(self.database, self.queue).result.then(function (status) {
+            var params = {status: status};
+            var queryParams = $location.search();
+            Message.updateByFilter(self.database, self.queue, queryParams, params).then(function () {
+                self.refreshMessages();
+            });
         });
     };
 
     self.enqueue = function () {
         ModalService.enqueueMessage(self.database, self.queue).result.then(function () {
             self.refreshMessages();
-        });
-    };
-
-    self.updateSelected = function () {
-        var messages = [];
-        self.filtered.forEach(function (message) {
-            if (message.isSelected) {
-                messages.push(message);
-            }
-        });
-        ModalService.updateMessage(self.database, self.queue, messages).then(function (status) {
-            messages.forEach(function (message) {
-                var params = {
-                    id: message.id,
-                    status: status
-                };
-                Message.updateById(self.database, self.queue, params).then(function () {
-                    self.refreshMessages();
-                }, function (err) {
-                    console.log(err);
-                });
-            });
         });
     };
 
@@ -122,12 +100,6 @@ function MessagesController(messages, queueInfo, $stateParams, Queue, $scope, $t
         });
     };
 
-    self.massiveUpdate = function () {
-        ModalService.messageModal(self.database, self.queue).result.then(function () {
-            self.refreshMessages();
-        });
-    };
-
     self.deleteMessage = function (message) {
         ModalService.confirmationDeleteMessage('It will delete this message').then(function () {
             Message.deleteById(self.database, self.queue, message.id).then(function () {
@@ -136,9 +108,37 @@ function MessagesController(messages, queueInfo, $stateParams, Queue, $scope, $t
         });
     };
 
+    self.updateSelected = function () {
+        var messages = [];
+        self.filtered.forEach(function (message) {
+            if (message.isSelected) {
+                messages.push(message);
+            }
+        });
+        ModalService.updateMessage(self.database, self.queue).result.then(function (status) {
+            messages.forEach(function (message) {
+                var params = {
+                    id: message.id,
+                    status: status
+                };
+                Message.updateById(self.database, self.queue, params).then(function () {
+                    self.refreshMessages();
+                }, function (err) {
+                    console.log(err);
+                });
+            });
+        });
+    };
+
     self.updateMessage = function (message) {
-        ModalService.updateMessage(self.database, self.queue, [message]).result.then(function () {
-            self.refreshMessages();
+        ModalService.updateMessage(self.database, self.queue).result.then(function (status) {
+            var params = {
+                id: message.id,
+                status: status
+            };
+            Message.updateById(self.database, self.queue, params).then(function () {
+                self.refreshMessages();
+            });
         });
     };
 

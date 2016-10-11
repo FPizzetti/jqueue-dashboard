@@ -15,7 +15,7 @@ function Message(messageResource) {
     };
 
     self.updateByFilter = function (db, queue, filter, messageParams) {
-        return messageResource.updateByFilter(db, queue, messageParams);
+        return messageResource.updateByFilter(db, queue, filter, messageParams);
     };
 
     self.deleteById = function (db, queue, id) {
