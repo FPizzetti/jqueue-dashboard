@@ -63,7 +63,8 @@ function MessagesController(messages, queueInfo, $stateParams, Queue, $scope, $t
     };
 
     self.massiveDelete = function () {
-        ModalService.confirmationDeleteMessage('It will delete all messages for this filter').then(function () {
+        self.advancedFilter();
+        ModalService.confirmationDeleteMessage('It will DELETE all messages for this filter').then(function () {
             var queryParams = $location.search();
             Message.deleteByFilter(self.database, self.queue, queryParams).then(function () {
                 self.refreshMessages();
@@ -72,11 +73,14 @@ function MessagesController(messages, queueInfo, $stateParams, Queue, $scope, $t
     };
 
     self.massiveUpdate = function () {
-        ModalService.updateMessage(self.database, self.queue).result.then(function (status) {
-            var params = {status: status};
-            var queryParams = $location.search();
-            Message.updateByFilter(self.database, self.queue, queryParams, params).then(function () {
-                self.refreshMessages();
+        self.advancedFilter();
+        ModalService.confirmationMassiveUpdate('It will UPDATE all messages for this filter').then(function () {
+            ModalService.updateMessage(self.database, self.queue).result.then(function (status) {
+                var params = {status: status};
+                var queryParams = $location.search();
+                Message.updateByFilter(self.database, self.queue, queryParams, params).then(function () {
+                    self.refreshMessages();
+                });
             });
         });
     };
