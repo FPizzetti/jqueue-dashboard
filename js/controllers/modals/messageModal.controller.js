@@ -7,6 +7,9 @@ function MessageModalController(database, queue, Queue, $scope, $uibModalInstanc
     self.database = database;
     self.queue = queue;
 
+    $scope.priority = 0;
+    $scope.delay = 0;
+
     $scope.enqueue = function () {
 
         var params = {

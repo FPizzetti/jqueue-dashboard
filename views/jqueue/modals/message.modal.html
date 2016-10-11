@@ -16,9 +16,11 @@
     </div>
     <br/>
     <div class="row">
-        <div class="col-sm-6">Priority<input class="form-control" type="text" ng-model="priority"></div>
+        <div class="col-sm-6">Priority<input data-input-mask="{mask: '0000'}" class="form-control" type="text"
+                                             ng-model="priority"></div>
 
-        <div class="col-sm-6"> Delay<input class="form-control" type="text" ng-model="delay"></div>
+        <div class="col-sm-6"> Delay<input data-input-mask="{mask: '0000000000'}" class="form-control" type="text"
+                                           ng-model="delay"></div>
     </div>
 
 </div>

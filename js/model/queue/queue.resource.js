@@ -18,10 +18,15 @@ function queueResource(webservice) {
         return webservice.doPost('/databases/' + dbName + '/queues/' + queue + '/messages', message);
     }
 
+    function update(dbName, queue, params) {
+        return webservice.doPut('/databases/' + dbName + '/queues/' + queue, params);
+    }
+
     return {
         getByName: getByName,
         getMessages: getMessages,
         drop: drop,
-        enqueue: enqueue
+        enqueue: enqueue,
+        update: update
     };
 }

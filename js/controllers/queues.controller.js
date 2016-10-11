@@ -1,6 +1,6 @@
-angular.module('database').controller('QueuesController', ['queues', 'ModalService', '$stateParams', 'Queue', QueuesController]);
+angular.module('database').controller('QueuesController', ['queues', 'ModalService', '$stateParams', 'Queue', 'Database', 'growlService', QueuesController]);
 
-function QueuesController(queues, ModalService, $stateParams, Queue, Database) {
+function QueuesController(queues, ModalService, $stateParams, Queue, Database, growlService) {
 
     var self = this;
 
@@ -24,13 +24,14 @@ function QueuesController(queues, ModalService, $stateParams, Queue, Database) {
 
     self.enqueueMessage = function (queue) {
         ModalService.enqueueMessage(self.database, queue).result.then(function () {
+            growlService.growl('Message created successfully', 'inverse');
             self.refreshQueues();
         });
     };
 
     self.editQueue = function (queue) {
         ModalService.confirmationUpdateQueue().then(function () {
-            ModalService.editQueue(queue).result.then(function () {
+            ModalService.editQueue(self.database, queue).result.then(function () {
                 self.refreshQueues();
             });
         });

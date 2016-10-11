@@ -127,7 +127,7 @@ function ModalService($uibModal, $q) {
             animation: true,
             templateUrl: 'views/jqueue/modals/messageUpdate.modal.html',
             controller: 'MessageUpdateModalController as messageUpdateModalCtrl',
-            size: 'sm',
+            size: 'md',
             backdrop: true,
             resolve: {
                 database: function () {

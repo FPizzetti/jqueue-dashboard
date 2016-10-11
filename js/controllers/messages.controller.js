@@ -1,6 +1,6 @@
-angular.module('database').controller('MessagesController', ['messages', 'queueInfo', '$stateParams', 'Queue', '$scope', '$timeout', 'ModalService', 'Message', '$location', '$filter', MessagesController]);
+angular.module('database').controller('MessagesController', ['messages', 'queueInfo', '$stateParams', 'Queue', '$scope', '$timeout', 'ModalService', 'Message', '$location', '$filter', 'HistoryService', MessagesController]);
 
-function MessagesController(messages, queueInfo, $stateParams, Queue, $scope, $timeout, ModalService, Message, $location, $filter) {
+function MessagesController(messages, queueInfo, $stateParams, Queue, $scope, $timeout, ModalService, Message, $location, $filter, HistoryService) {
 
     var filter = $filter('filter');
     var self = this;
@@ -38,7 +38,6 @@ function MessagesController(messages, queueInfo, $stateParams, Queue, $scope, $t
             modified_at_start: $scope.modifiedAtStart || currentParams.modified_at_start,
             modified_at_end: $scope.modifiedAtEnd || currentParams.modified_at_end
         };
-
         $location.search(params);
         Message.getMessagesByQuery(self.database, self.queue, params).then(function (resolution) {
             self.messages = resolution.data;

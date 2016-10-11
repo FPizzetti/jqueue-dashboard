@@ -11,16 +11,30 @@
             <div class="block-header">
                 <ol class="breadcrumb" style="margin-bottom: 5px;">
                     <li><a href="#/databases">Databases</a></li>
-                    <li><a href="#/databases/{{queuesCtrl.database}}/queues">{{queuesCtrl.database}}</a></li>
-                    <li class="active">{{queuesCtrl.queue}}</li>
+                    <li class="active">{{queuesCtrl.database}}</li>
                 </ol>
             </div>
 
             <div class="row">
-                <div class="col-sm-4" ng-repeat="queue in queuesCtrl.queues">
+                <div class="listview lv-bordered lv-lg">
+                    <div class="lv-header-alt clearfix">
+                        <div class="lvh-search">
+                            <input type="text" placeholder="Start typing..." ng-model="search"
+                                   class="lvhs-input">
+                            <i class="lvh-search-close"
+                               data-ng-click="search = ''">&times;</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <div class="row">
+                <div class="col-sm-4" ng-repeat="queue in queuesCtrl.queues | filter:search">
                     <div class="card">
                         <a href="#/databases/{{queuesCtrl.database}}/queues/{{queue}}">
-                            <div class="card-header bgm-bluegray m-b-20">
+                            <div class="card-header bgm-bluegray">
                                 <h2>{{queue}}</h2>
                             </div>
                         </a>

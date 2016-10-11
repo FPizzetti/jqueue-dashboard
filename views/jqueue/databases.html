@@ -10,11 +10,29 @@
 
             <!-- Extra -->
             <div class="block-header">
-                <h2>Databases</h2>
+                <ol class="breadcrumb" style="margin-bottom: 5px;">
+                    <li class="active">Databases</li>
+                </ol>
             </div>
 
             <div class="row">
-                <div class="col-sm-4" ng-repeat="database in databaseCtrl.databases">
+                <div class="listview lv-bordered lv-lg">
+                    <div class="lv-header-alt clearfix">
+                        <div class="lvh-search">
+                            <input type="text" placeholder="Start typing..." ng-model="search"
+                                   class="lvhs-input">
+                            <i class="lvh-search-close"
+                               data-ng-click="search = ''">&times;</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+
+            <div class="row">
+                <div class="col-sm-4" ng-repeat="database in databaseCtrl.databases | filter:search">
                     <div class="card">
                         <a href="#/databases/{{database.configName}}/queues">
                             <div class="card-header bgm-bluegray m-b-20">

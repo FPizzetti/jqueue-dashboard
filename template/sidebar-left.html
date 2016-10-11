@@ -1,32 +1,14 @@
-<div class="sidebar-inner c-overflow">
-    <div class="profile-menu">
-        <a href="" toggle-submenu>
-            <br/>
-
-            <div class="profile-pic">
-                &nbsp;
-            </div>
-            <br/>
-            <div class="profile-info">
-
-                History
-                <i class="zmdi zmdi-caret-down"></i>
-            </div>
-        </a>
-
-        <ul class="main-menu">
-            <li>
-                <a data-ui-sref="pages.profile.profile-about" data-ng-click="mactrl.sidebarStat($event)"><i
-                        class="zmdi zmdi-account"></i> View Profile</a>
-            </li>
-            <li>
-                <a href=""><i class="zmdi zmdi-input-antenna"></i> Privacy Settings</a>
-            </li>
-            <li>
-                <a href=""><i class="zmdi zmdi-settings"></i> Settings</a>
-            </li>
-            <li>
-                <a href=""><i class="zmdi zmdi-time-restore"></i> Logout</a>
+<div class="sidebar-inner" ng-controller="SidebarController as sidebarCtrl">
+    <div class="profile-menu text-center">
+        <br/>
+        <label>&nbsp;Operation History
+            <button class="btn btn-link" ng-click="sidebarCtrl.list()"><i class="glyphicon glyphicon-refresh"></i>
+            </button>
+        </label>
+        <hr style="margin-top: 0px"/>
+        <ul class="text-justify">
+            <li ng-repeat="history in sidebarCtrl.history track by $index">
+                <a href="{{history}}">{{history.split('/#')[1]}}</a>
             </li>
         </ul>
     </div>

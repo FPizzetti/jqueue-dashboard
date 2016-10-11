@@ -14,6 +14,10 @@ function Queue(queueResource) {
         return queueResource.getMessages(dbName, queue);
     };
 
+    self.update = function (dbName, queue, params) {
+        return queueResource.update(dbName, queue, params);
+    };
+
     self.drop = function (dbName, queue) {
         return queueResource.drop(dbName, queue);
     };

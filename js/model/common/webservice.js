@@ -16,6 +16,10 @@ function webservice($http) {
         return $http.post(basePath + endpoint, params, queryParams);
     }
 
+    function doPut(endpoint, params) {
+        return $http.put(basePath + endpoint, params);
+    }
+
     function doDelete(endpoint, queryParams) {
         return $http.delete(basePath + endpoint, {params: queryParams});
     }
@@ -28,6 +32,7 @@ function webservice($http) {
         doGet: doGet,
         doPost: doPost,
         doDelete: doDelete,
-        doPatch: doPatch
+        doPatch: doPatch,
+        doPut: doPut
     }
 }

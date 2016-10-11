@@ -1,14 +1,24 @@
 angular.module('database').controller('QueueModalController', ['database', 'queue', 'Queue', '$scope', '$uibModalInstance', QueueModalController]);
 
-function QueueModalController(db, queue, Queue, $scope, $uibModalInstance) {
+function QueueModalController(database, queue, Queue, $scope, $uibModalInstance) {
 
     var self = this;
 
-    $scope.ok = function () {
-        $uibModalInstance.close();
+    function init() {
+        Queue.getByName(database, queue).then(function (resolution) {
+            $scope.storageType = resolution.data.ENGINE.toLowerCase() !== 'memory' ? 'disk' : 'memory';
+        });
+    }
+
+    $scope.save = function () {
+        Queue.update(database, queue, {ephemeral: $scope.storageType === 'memory'}).then(function () {
+            $uibModalInstance.close();
+        });
     };
 
     $scope.cancel = function () {
         $uibModalInstance.dismiss();
     };
+
+    init();
 }
