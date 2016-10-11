@@ -146,9 +146,10 @@
                     <div class="listview lv-bordered lv-lg">
                         <div class="lv-header-alt clearfix">
                             <div ng-if="messagesCtrl.filtered.length>0" class="checkbox pull-left"
-                                 uib-tooltip="Select all messages from this page">
+                                 uib-tooltip="Select all messages">
                                 &nbsp;&nbsp;&nbsp;<label>
-                                <input type="checkbox" ng-model="selectAll" ng-change="verifySelectAll()">
+                                <input type="checkbox" ng-model="messagesCtrl.selectAll"
+                                       ng-change="messagesCtrl.verifySelectAll()">
                                 <i class="input-helper"></i>
                             </label>
                             </div>
@@ -162,6 +163,16 @@
                             </div>
 
                             <ul class="lv-actions actions">
+                                <li uib-tooltip="Delete selected Messages">
+                                    <a href="" ng-click="messagesCtrl.deleteSelected()">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                    </a>
+                                </li>
+                                <li uib-tooltip="Update selected Messages">
+                                    <a href="" ng-click="messagesCtrl.updateSelected()">
+                                        <i class="zmdi zmdi-edit"></i>
+                                    </a>
+                                </li>
                                 <li uib-tooltip="Enqueue new Message">
                                     <a href="" ng-click="messagesCtrl.enqueue()">
                                         <i class="zmdi zmdi-plus"></i>
@@ -184,7 +195,7 @@
 
                         <div class="lv-body" ng-if="messagesCtrl.filtered.length>0">
                             <div class="lv-item media"
-                                 ng-repeat="message in messagesCtrl.filtered = (messagesCtrl.messages | filter:search | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit)">
+                                 ng-repeat="message in messagesCtrl.filtered = (messagesCtrl.messages | filter:messagesCtrl.search | startFrom:(messagesCtrl.currentPage-1)*messagesCtrl.entryLimit | limitTo:messagesCtrl.entryLimit)">
                                 <div class="checkbox pull-left">
                                     <label>
                                         <input type="checkbox" ng-model="message.isSelected">
@@ -210,10 +221,11 @@
 
                                         <ul class="dropdown-menu dropdown-menu-right">
                                             <li>
-                                                <a href="">Delete&nbsp;<i class="glyphicon glyphicon-trash"></i></a>
+                                                <a href="" ng-click="messagesCtrl.deleteMessage(message)">Delete&nbsp;<i
+                                                        class="glyphicon glyphicon-trash"></i></a>
                                             </li>
                                             <li>
-                                                <a href="">Update&nbsp;
+                                                <a href="" ng-click="messagesCtrl.updateMessage(message)">Update&nbsp;
                                                     <i class="glyphicon glyphicon-pencil"></i></a>
                                             </li>
                                         </ul>
@@ -225,12 +237,14 @@
                     </div>
 
                     <div ng-if="messagesCtrl.filtered.length>0" class="lv-pagination">
-                        <uib-pagination total-items="filteredItems"
-                                        ng-model="currentPage"></uib-pagination>
+                        <uib-pagination total-items="messagesCtrl.filteredItems"
+                                        ng-model="messagesCtrl.currentPage"></uib-pagination>
                     </div>
                     <div class="lv-body" ng-if="messagesCtrl.filtered.length<=0">
                         <div class="lv-item media">
-                            No messages were found
+                            <br/>
+                            <label>&nbsp;&nbsp;&nbsp;&nbsp;No messages were found</label>
+                            <br/>
                         </div>
                     </div>
                 </div>

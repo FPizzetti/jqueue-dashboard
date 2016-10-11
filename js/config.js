@@ -569,8 +569,9 @@ materialAdmin
                 controllerAs: 'messagesCtrl',
                 templateUrl: 'views/jqueue/messages.html',
                 resolve: {
-                    messages: ['$stateParams', 'Queue', function ($stateParams, Queue) {
-                        return Queue.getMessages($stateParams.db, $stateParams.queue);
+                    messages: ['$stateParams', '$location', 'Message', function ($stateParams, $location, Message) {
+                        var params = $location.search();
+                        return Message.getMessagesByQuery($stateParams.db, $stateParams.queue, params);
                     }],
                     queueInfo: ['$stateParams', 'Queue', function ($stateParams, Queue) {
                         return Queue.getByName($stateParams.db, $stateParams.queue);

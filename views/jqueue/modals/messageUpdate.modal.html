@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <h4 class="modal-title">Message Update</h4>
+</div>
+<div class="modal-body">
+    <div class="block-header">
+        <ol class="breadcrumb" style="margin-bottom: 5px;">
+            <li><a href="">Databases</a></li>
+            <li><a href="">{{messageModalCtrl.database}}</a></li>
+            <li class="active">{{messageModalCtrl.queue}}</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <div class="fg-line">
+                <div class="select">
+                    <select class="form-control" ng-model="status">
+                        <option value="">Select a Status</option>
+                        <option value="buried">Buried</option>
+                        <option value="ready">Ready</option>
+                        <option value="reserved">Reserved</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-link" ng-click="cancel()">Cancel</button>
+    <button type="button" class="btn btn-success" ng-click="update()">Enqueue</button>
+</div>
+
